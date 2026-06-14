@@ -1,54 +1,94 @@
 'use strict'
 
-var gElcanvas
+var gElCanvas
 var gCtx
 
-function onInit() {
-	gElcanvas = document.querySelector("canvas")
-	gCtx = gElcanvas.getContext("2d")
-	resizeCanvas()
-	renderMeme()
+var gImgs = [
+  { id: 1, url: "imgs/1.jpg", keywords: ["happy", "smile"] },
+  { id: 2, url: "imgs/2.jpg", keywords: ["crazy", "funny"] },
+  { id: 3, url: "imgs/3.jpg", keywords: ["sad", "cry"] },
+]
+
+var gMeme = {
+  selectedImgId: 5,
+  txts: [
+    {
+      line: "I never eat Falafel",
+      size: 20,
+      align: "left",
+      color: "red",
+    },
+  ],
 }
 
-function renderMeme() {
-	onSelectPic(picId)
-	renderImg(img)
-	renderText(text)
+function onInit() {
+  gElCanvas = document.querySelector("canvas")
+  gCtx = gElCanvas.getContext("2d")
+  resizeCanvas()
+  addListeners()
+  renderGallery()
+}
+
+function renderGallery() {
+  const strHTMLs = gImgs.map(
+    (img) => `<img src="${img.url}" onclick="onSelectMemeImg(this)" />`,
+  )
+  document.querySelector(".select-img-container").innerHTML = strHTMLs.join("")
 }
 
 function resizeCanvas() {
-	const elContainer = document.querySelector('.canvas-container')   
-	gElcanvas.width = elContainer.offsetWidth
-    gElcanvas.height = elContainer.offsetHeight
+  const elContainer = document.querySelector(".canvas-container")
+  gElCanvas.width = elContainer.offsetWidth
+  gElCanvas.height = elContainer.offsetHeight
 }
 
 function onSelectPic(picId) {
-	gCtx.drawImage(picId, 0, 0, gCanvas.width, gCanvas.height)
+  gCtx.drawImage(picId, 0, 0, gElCanvas.width, gElCanvas.height)
+}
+
+function onSelectMemeImg(elImg) {
+  renderImg(elImg)
 }
 
 function renderImg(img) {
-	 gElCanvas.height = (img.naturalHeight / img.naturalWidth) * gElCanvas.width
-    gCtx.drawImage(img, 0, 0, gElCanvas.width, gElCanvas.height)
+  gElCanvas.height = (img.naturalHeight / img.naturalWidth) * gElCanvas.width
+  gCtx.drawImage(img, 0, 0, gElCanvas.width, gElCanvas.height)
+  gMeme.txts.forEach((txt, idx) => renderText(txt, idx))
 }
 
-function renderText(text) {
-	 gElCanvas.height = (Text.naturalHeight / text.naturalWidth) * gElCanvas.width
-    gCtx.drawText(text, 0, 0, gElCanvas.width, gElCanvas.height)
+function renderText(txt, lineIdx) {
+  gCtx.font = `${txt.size}px Arial`
+  gCtx.fillStyle = txt.color
+  gCtx.textAlign = txt.align
+  const x =
+    txt.align === "center"
+      ? gElCanvas.width / 2
+      : txt.align === "right"
+        ? gElCanvas.width - 10
+        : 10
+  const y = 30 + lineIdx * (txt.size + 10)
+  gCtx.fillText(txt.line, x, y)
 }
 
 function addListeners() {
-	addMouseListeners()
-	addTouchListeners()
+  addMouseListeners()
+  addTouchListeners()
 }
 
 function addMouseListeners() {
-	gElcanvas.addEventlistener("mousedown", onDown)
-	gElcanvas.addEventlistener("mousemove", onMove)
-	gElcanvas.addEventlistener("mouseup", onUp)
+  gElCanvas.addEventListener("mousedown", onDown)
+  gElCanvas.addEventListener("mousemove", onMove)
+  gElCanvas.addEventListener("mouseup", onUp)
 }
 
 function addTouchListeners() {
-	gElcanvas.addEventlistener("touchstart", onDown)
-	gElcanvas.addEventlistener("touchmove", onMove)
-	gElcanvas.addEventlistener("touchend", onUp)
+  gElCanvas.addEventListener("touchstart", onDown)
+  gElCanvas.addEventListener("touchmove", onMove)
+  gElCanvas.addEventListener("touchend", onUp)
 }
+
+function onDown() {}
+
+function onMove() {}
+
+function onUp() {}
