@@ -6,20 +6,15 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Ultimate Meme Generator</title>
 </head>
-<body>
+<body onload="onInit()">
     <h1>Ultimate Meme Generator</h1>
     
     <div class="canvas-container">
         <canvas height="400"></canvas>
     </div>
 
-    <canvas width="900" height="500"></canvas>
-
     <section class="select-img-container">
         <h3>Select an image:</h3>
-        <img src="img/1.jpg" onclick="onSelectImg(this)" />
-        <img src="img/2.jpg" onclick="onSelectImg(this)" />
-        <img src="img/3.jpg" onclick="onSelectImg(this)" />
     </section>
 
     <script src="js/main.js"></script>
