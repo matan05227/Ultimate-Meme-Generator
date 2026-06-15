@@ -7,10 +7,25 @@ var gImgs = [
   { id: 1, url: "imgs/1.jpg", keywords: ["happy", "smile"] },
   { id: 2, url: "imgs/2.jpg", keywords: ["crazy", "funny"] },
   { id: 3, url: "imgs/3.jpg", keywords: ["sad", "cry"] },
+  { id: 4, url: "imgs/4.jpg", keywords: ["slepping", "cat"] },
+  { id: 5, url: "imgs/5.jpg", keywords: ["baby", "cute"] },
+  { id: 6, url: "imgs/6.jpg", keywords: ["man", "history"] },
+  { id: 7, url: "imgs/7.jpg", keywords: ["kid", "eyes"] },
+  { id: 8, url: "imgs/8.jpg", keywords: ["clown", "fantazy"] },
+  { id: 9, url: "imgs/9.jpg", keywords: ["kid", "scared"] },
+  { id: 10, url: "imgs/10.jpg", keywords: ["president", "failed"] },
+  { id: 11, url: "imgs/11.jpg", keywords: ["man", "hug"] },
+  { id: 12, url: "imgs/12.jpg", keywords: ["man", "right"] },
+  { id: 13, url: "imgs/13.jpg", keywords: ["man", "drink"] },
+  { id: 14, url: "imgs/14.jpg", keywords: ["man", "mystry"] },
+  { id: 15, url: "imgs/15.jpg", keywords: ["man", "hair"] },
+  { id: 16, url: "imgs/16.jpg", keywords: ["man", "face"] },
+  { id: 17, url: "imgs/17.jpg", keywords: ["man", "speach"] },
+  { id: 18, url: "imgs/18.jpg", keywords: ["movie", "animation"] },
 ]
 
 var gMeme = {
-  selectedImgId: 5,
+  selectedImgId: 3,
   txts: [
     {
       line: "I never eat Falafel",
@@ -21,6 +36,14 @@ var gMeme = {
   ],
 }
 
+function onSearch (elSearch) {
+  var value = elSearch.value
+  var filteredImgs = gImgs.filter(img => img.keywords.some((keyword) => keyword.includes(value)))
+  console.log(filteredImgs);
+  renderGallery(filteredImgs)
+ 
+}
+
 function onInit() {
   gElCanvas = document.querySelector("canvas")
   gCtx = gElCanvas.getContext("2d")
@@ -29,8 +52,13 @@ function onInit() {
   renderGallery()
 }
 
-function renderGallery() {
-  const strHTMLs = gImgs.map(
+function getImgIdxById (id) {
+  return gImgs.findIndex(img => img.id === id)
+}
+
+function renderGallery(imgs = null) {
+  const imgsToRender = imgs ? imgs : gImgs
+  const strHTMLs = imgsToRender.map(
     (img) => `<img src="${img.url}" onclick="onSelectMemeImg(this)" />`,
   )
   document.querySelector(".select-img-container").innerHTML = strHTMLs.join("")
@@ -42,9 +70,9 @@ function resizeCanvas() {
   gElCanvas.height = elContainer.offsetHeight
 }
 
-function onSelectPic(picId) {
-  gCtx.drawImage(picId, 0, 0, gElCanvas.width, gElCanvas.height)
-}
+// function onSelectPic(picId) {
+//   gCtx.drawImage(picId, 0, 0, gElCanvas.width, gElCanvas.height)
+// }
 
 function onSelectMemeImg(elImg) {
   renderImg(elImg)
@@ -87,6 +115,20 @@ function addTouchListeners() {
   gElCanvas.addEventListener("touchend", onUp)
 }
 
+function getMeme() {
+	return gMeme
+}
+
+function onInput(elTxt) {
+	const meme = getMeme()
+	const value = elTxt.value
+	// get the value out of elTxt - נחלץ את הערך מתוך האלמנט שקיבלנו
+	// getMeme() to get the current meme - נתפוס את המימ הרלוונטי באמצעות גטמימ
+	// renderText() - נפעיל את רנדר טקסט עם הפרמטרים הרלוונטיים
+	meme.txts[0].line = value
+  const imgIdx = getImgIdxById(gMeme.selectedImgId)
+  renderImg(gImgs[imgIdx])
+ }
 function onDown() {}
 
 function onMove() {}
