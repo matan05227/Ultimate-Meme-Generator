@@ -123,6 +123,11 @@ function onInput(elTxt) {
   renderImg(gImgs[imgIdx])
  }
 
+ function onDownloadImg(elLink) {
+  const dataURL = gElCanvas.toDataURL('image/jpeg')
+  elLink.href = dataURL
+}
+
 function onDown() {}
 
 function onMove() {}
