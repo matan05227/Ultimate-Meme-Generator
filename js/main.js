@@ -70,10 +70,6 @@ function resizeCanvas() {
   gElCanvas.height = elContainer.offsetHeight
 }
 
-// function onSelectPic(picId) {
-//   gCtx.drawImage(picId, 0, 0, gElCanvas.width, gElCanvas.height)
-// }
-
 function onSelectMemeImg(elImg) {
   renderImg(elImg)
 }
@@ -122,13 +118,11 @@ function getMeme() {
 function onInput(elTxt) {
 	const meme = getMeme()
 	const value = elTxt.value
-	// get the value out of elTxt - נחלץ את הערך מתוך האלמנט שקיבלנו
-	// getMeme() to get the current meme - נתפוס את המימ הרלוונטי באמצעות גטמימ
-	// renderText() - נפעיל את רנדר טקסט עם הפרמטרים הרלוונטיים
 	meme.txts[0].line = value
   const imgIdx = getImgIdxById(gMeme.selectedImgId)
   renderImg(gImgs[imgIdx])
  }
+
 function onDown() {}
 
 function onMove() {}
