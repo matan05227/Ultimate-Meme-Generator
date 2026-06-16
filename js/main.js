@@ -77,7 +77,7 @@ function onSelectMemeImg(elImg) {
 function renderImg(img) {
   gElCanvas.height = (img.naturalHeight / img.naturalWidth) * gElCanvas.width
   gCtx.drawImage(img, 0, 0, gElCanvas.width, gElCanvas.height)
-  gMeme.txts.forEach((txt, idx) => renderText(txt, idx))
+  gMeme.txts.forEach((txt, idx) => renderText(txt, idx));
 }
 
 function renderText(txt, lineIdx) {
